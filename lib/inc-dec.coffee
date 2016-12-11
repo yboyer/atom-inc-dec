@@ -9,11 +9,16 @@ _aEnums = [
     [ "mon", "tue", "wed", "thu", "fri", "sat", "sun" ]
     [ "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" ]
     [ "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche" ]
-    [ "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" ]
+    [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
+    [ "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre" ]
 ]
 
 _rRordRegex = new RegExp()
 _rNumberRegex = new RegExp()
+
+_reverseEnums = () ->
+    for aEnum in _aEnums
+        aEnum.reverse()
 
 _findAnEnum = ( sWord ) ->
     for aEnum in _aEnums
@@ -57,6 +62,7 @@ module.exports =
             default: "[-+]?\\d+(\\.\\d+)?"
 
     activate: ->
+        _reverseEnums()
         atom.config.observe "inc-dec.wordRegex", _stringToWordRegExp
         atom.config.observe "inc-dec.numberRegex", _stringToNumberRegExp
         atom.commands.add "atom-text-editor:not([mini])",
@@ -109,7 +115,13 @@ module.exports =
 
             # Enum
             else if aEnum = _findAnEnum sWord
-                sNewWord = aEnum[ aEnum.indexOf(sWord) + (if sDirection is "up" then 1 else -1) ] ? aEnum[ if sDirection is "up" then 0 else (aEnum.length - 1) ]
+                iValue = aEnum.indexOf(sWord) + (if sDirection is "up" then 1 else -1)
+                if iValue >= aEnum.length
+                    iValue = aEnum.length - 1
+                if iValue < 0
+                    iValue = 0
+
+                sNewWord = aEnum[ iValue ]
 
             # Word
             else

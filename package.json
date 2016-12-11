@@ -1,7 +1,7 @@
 {
   "name": "inc-dec",
   "main": "./lib/inc-dec",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Change word case, number value and loop between keywords with the arrow keys.",
   "keywords": [
     "inc-dec",

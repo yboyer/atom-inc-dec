@@ -3,7 +3,7 @@
 
 Inspired by [`rmaksim/Sublime-Text-2-Inc-Dec-Value`](https://github.com/rmaksim/Sublime-Text-2-Inc-Dec-Value) and [`emmetio/emmet-atom`](https://github.com/emmetio/emmet-atom).
 
-![](gifs/01.gif)
+![](https://raw.githubusercontent.com/yboyer/atom-inc-dec/master/gifs/01.gif?raw=true)
 
 ## List of enums
 - yes, no

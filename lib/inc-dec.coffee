@@ -15,6 +15,7 @@ _aEnums = [
 
 _rRordRegex = new RegExp()
 _rNumberRegex = new RegExp()
+_circleTroughListBool = new Boolean()
 
 _reverseEnums = () ->
     for aEnum in _aEnums
@@ -30,6 +31,9 @@ _stringToWordRegExp = (sStr) ->
 
 _stringToNumberRegExp = (sStr) ->
     _rNumberRegex = new RegExp(sStr, 'g')
+
+_circleTroughList = (aBool) ->
+    _circleTroughListBool = aBool
 
 _getPrecision = (iNumber) ->
     d = ( s = iNumber.toString() ).indexOf( '.' ) + 1
@@ -60,11 +64,17 @@ module.exports =
             description: "A RegExp indicating what constitutes a number"
             type: "string"
             default: "[-+]?\\d+(\\.\\d+)?"
+        circleTroughList:
+            title: "Circle through list"
+            description: "Enable if you want to be able to circle though the list"
+            type: "boolean"
+            default: false
 
     activate: ->
         _reverseEnums()
         atom.config.observe "inc-dec.wordRegex", _stringToWordRegExp
         atom.config.observe "inc-dec.numberRegex", _stringToNumberRegExp
+        atom.config.observe 'inc-dec.circleTroughList', _circleTroughList
         atom.commands.add "atom-text-editor:not([mini])",
             "inc-dec:inc": => @loop()
             "inc-dec:dec": => @loop "down"
@@ -117,9 +127,16 @@ module.exports =
             else if aEnum = _findAnEnum sWord
                 iValue = aEnum.indexOf(sWord) + (if sDirection is "up" then 1 else -1)
                 if iValue >= aEnum.length
-                    iValue = 0
+                    if _circleTroughListBool is true
+                        iValue = 0
+                    else
+                        iValue = aEnum.length - 1
+
                 if iValue < 0
-                    iValue = aEnum.length - 1
+                    if _circleTroughListBool is true
+                      iValue = aEnum.length - 1
+                    else
+                      iValue = 0
 
                 sNewWord = aEnum[ iValue ]
 

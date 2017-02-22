@@ -117,9 +117,9 @@ module.exports =
             else if aEnum = _findAnEnum sWord
                 iValue = aEnum.indexOf(sWord) + (if sDirection is "up" then 1 else -1)
                 if iValue >= aEnum.length
-                    iValue = aEnum.length - 1
-                if iValue < 0
                     iValue = 0
+                if iValue < 0
+                    iValue = aEnum.length - 1
 
                 sNewWord = aEnum[ iValue ]
 
